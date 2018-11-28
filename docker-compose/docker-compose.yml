@@ -3,12 +3,12 @@ services:
   nginx:
     build: ./docker-nginx
     links:
-      - app
+      - clipper-api
     volumes:
       - "/opt/clipper-front:/var/www/frontend"
     ports:
       - "80:80"
-  app:
+  clipper-api:
     image: "eu.gcr.io/focus-mechanic-212210/clipper-api"
     command: "start --rabbitmq=amqp://clipper:clipper@rabbitmq:5672" # TODO: Prime admin password from secrets
     ports:
