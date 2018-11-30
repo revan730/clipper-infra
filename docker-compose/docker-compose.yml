@@ -15,7 +15,6 @@ services:
      - "8080"
     restart: "always"
     links:
-     - redis
      - postgres
      - rabbitmq
   postgres:
@@ -28,8 +27,6 @@ services:
       PGDATA: "/opt/db"
     volumes:
      - "/opt/clipper-db:/opt/db"
-  redis:
-    image: "redis:alpine"
   rabbitmq:
     image: "rabbitmq:3.7.8"
     environment:
