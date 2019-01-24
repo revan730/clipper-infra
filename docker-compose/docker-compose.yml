@@ -10,13 +10,45 @@ services:
       - "80:80"
   clipper-api:
     image: "eu.gcr.io/focus-mechanic-212210/clipper-api"
-    command: "start --rabbitmq=amqp://clipper:clipper@rabbitmq:5672" # TODO: Prime admin password from secrets
+    command: ["start", "--rabbitmq=amqp://clipper:clipper@rabbitmq:5672",
+    "--ci=clipper-ci:8080", "--cd=clipper-cd:8080"] # TODO: Prime admin password from secrets
     ports:
      - "8080"
     restart: "always"
     links:
      - postgres
      - rabbitmq
+     - clipper-ci
+     - clipper-cd
+  clipper-ci:
+    image: "eu.gcr.io/focus-mechanic-212210/clipper-ci"
+    command: ["start", "--rabbitmq=amqp://clipper:clipper@rabbitmq:5672",
+     "--gcr=eu.gcr.io/focus-mechanic-212210/", "--json=/opt/secrets/secret.json"]
+    ports:
+      - "8080"
+    restart: "always"
+    links:
+      - postgres
+      - rabbitmq
+    volumes:
+      - "/opt/clipper-ci-secrets:/opt/secrets"
+  clipper-cd:
+    image: "eu.gcr.io/focus-mechanic-212210/clipper-cd"
+    command: ["start", "--rabbitmq=amqp://clipper:clipper@rabbitmq:5672",
+    "--ci=clipper-ci:8080"]
+    ports:
+      - "8080"
+    restart: "always"
+    links:
+      - postgres
+      - redis
+      - clipper-ci
+      - rabbitmq
+    volumes:
+      - "/opt/clipper-cd-config:/config/.kube"
+  redis:
+    image: "redis:5.0.3"
+    restart: "always"
   postgres:
     image: "postgres"
     restart: "always"
