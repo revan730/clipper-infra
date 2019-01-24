@@ -12,8 +12,6 @@ services:
     image: "eu.gcr.io/focus-mechanic-212210/clipper-api"
     command: ["start", "--rabbitmq=amqp://clipper:clipper@rabbitmq:5672",
     "--ci=clipper-ci:8080", "--cd=clipper-cd:8080"] # TODO: Prime admin password from secrets
-    ports:
-     - "8080"
     restart: "always"
     links:
      - postgres
@@ -24,8 +22,6 @@ services:
     image: "eu.gcr.io/focus-mechanic-212210/clipper-ci"
     command: ["start", "--rabbitmq=amqp://clipper:clipper@rabbitmq:5672",
      "--gcr=eu.gcr.io/focus-mechanic-212210/", "--json=/opt/secrets/secret.json"]
-    ports:
-      - "8080"
     restart: "always"
     links:
       - postgres
@@ -36,8 +32,6 @@ services:
     image: "eu.gcr.io/focus-mechanic-212210/clipper-cd"
     command: ["start", "--rabbitmq=amqp://clipper:clipper@rabbitmq:5672",
     "--ci=clipper-ci:8080"]
-    ports:
-      - "8080"
     restart: "always"
     links:
       - postgres
