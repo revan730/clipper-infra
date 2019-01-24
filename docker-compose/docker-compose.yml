@@ -21,14 +21,14 @@ services:
   clipper-ci:
     image: "eu.gcr.io/focus-mechanic-212210/clipper-ci"
     command: ["start", "--rabbitmq=amqp://clipper:clipper@rabbitmq:5672",
-     "--gcr=eu.gcr.io/focus-mechanic-212210/", "--json=/opt/secrets/secret.json",
+     "--gcr=eu.gcr.io/focus-mechanic-212210/", "--json=/opt/clipper-ci-secrets/secret.json",
      "--builder=eu.gcr.io/focus-mechanic-212210/ci-builder"]
     restart: "always"
     links:
       - postgres
       - rabbitmq
     volumes:
-      - "/opt/clipper-ci-secrets/secret.json:/opt/secrets/secret.json"
+      - "/opt/clipper-ci-secrets/secret.json:/opt/secrets/secret.json" # Actually usless as docker daemon runs outside the container
       - "/var/run/docker.sock:/var/run/docker.sock"
   clipper-cd:
     image: "eu.gcr.io/focus-mechanic-212210/clipper-cd"
