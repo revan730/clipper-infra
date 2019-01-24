@@ -54,7 +54,7 @@ services:
     volumes:
      - "/opt/clipper-db:/opt/db"
   rabbitmq:
-    image: "rabbitmq:3.7.8"
+    image: "rabbitmq:3.7.8-management"
     environment:
       RABBITMQ_DEFAULT_USER: "clipper"
       RABBITMQ_DEFAULT_PASS: "clipper" # TODO: Move credentials to secrets
