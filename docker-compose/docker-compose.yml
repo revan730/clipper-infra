@@ -28,6 +28,7 @@ services:
       - rabbitmq
     volumes:
       - "/opt/clipper-ci-secrets:/opt/secrets"
+      - "/var/run/docker.sock:/var/run/docker.sock"
   clipper-cd:
     image: "eu.gcr.io/focus-mechanic-212210/clipper-cd"
     command: ["start", "--rabbitmq=amqp://clipper:clipper@rabbitmq:5672",
@@ -55,6 +56,9 @@ services:
      - "/opt/clipper-db:/opt/db"
   rabbitmq:
     image: "rabbitmq:3.7.8-management"
+    ports:
+     - "5672:5672"
+     - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: "clipper"
       RABBITMQ_DEFAULT_PASS: "clipper" # TODO: Move credentials to secrets
