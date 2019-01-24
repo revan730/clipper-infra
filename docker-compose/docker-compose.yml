@@ -28,7 +28,7 @@ services:
       - postgres
       - rabbitmq
     volumes:
-      - "/opt/clipper-ci-secrets:/opt/secrets"
+      - "/opt/clipper-ci-secrets/secret.json:/opt/secrets/secret.json"
       - "/var/run/docker.sock:/var/run/docker.sock"
   clipper-cd:
     image: "eu.gcr.io/focus-mechanic-212210/clipper-cd"
