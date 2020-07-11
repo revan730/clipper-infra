@@ -5,7 +5,7 @@ services:
     links:
       - clipper-api
     volumes:
-      - "/opt/clipper-front:/var/www/frontend"
+      - "/Users/revan730/codez/docker/opt/clipper-front:/var/www/frontend"
     ports:
       - "80:80"
   clipper-api:
@@ -28,7 +28,7 @@ services:
       - postgres
       - rabbitmq
     volumes:
-      - "/opt/clipper-ci-secrets/secret.json:/opt/secrets/secret.json" # Actually usless as docker daemon runs outside the container
+      - "/Users/revan730/codez/docker/opt/clipper-ci-secrets/secret.json:/opt/secrets/secret.json" # Actually usless as docker daemon runs outside the container
       - "/var/run/docker.sock:/var/run/docker.sock"
   clipper-cd:
     image: "eu.gcr.io/focus-mechanic-212210/clipper-cd"
@@ -41,7 +41,7 @@ services:
       - clipper-ci
       - rabbitmq
     volumes:
-      - "/opt/clipper-cd-config:/config/.kube"
+      - "/Users/revan730/codez/docker/opt/clipper-cd-config:/config/.kube"
   redis:
     image: "redis:5.0.3"
     restart: "always"
@@ -53,8 +53,10 @@ services:
       POSTGRES_PASSWORD: "clipper" # Wow, much secure
       POSTGRES_DB: "clipper"
       PGDATA: "/opt/db"
+    ports:
+      - "5432:5432"
     volumes:
-     - "/opt/clipper-db:/opt/db"
+     - "/Users/revan730/codez/docker/opt/clipper-db:/opt/db"
   rabbitmq:
     image: "rabbitmq:3.7.8-management"
     ports:
